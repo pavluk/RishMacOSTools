@@ -56,8 +56,8 @@ enum ServersManager {
                 message: String(localized: "server.exist.host"),
                 error: true
             )
-                return false
-            }
+            return false
+        }
         
         var server = ServerObject(host: host)
         server.host = host
@@ -86,7 +86,7 @@ enum ServersManager {
             server.key = KeyObject(fileName: server.keyName)
             server.keyName = server.key.keyName
             server.publicKey = server.key.publicKey
-
+            
             servers[index] = server;
             if pullServersToFile() {
                 StaticHelper.showAlert(
@@ -132,7 +132,7 @@ enum ServersManager {
                 error: true
             )
             return false
-            }
+        }
         
         if let index = servers.firstIndex(where: { $0.host == server.host }) {
             servers.remove(at: index)
@@ -164,8 +164,8 @@ enum ServersManager {
                     result.append(server.toConfigFileString())
                 }
             }
-
-
+            
+            
             
             let content = result.joined(separator: "\n")
             
@@ -226,7 +226,7 @@ enum ServersManager {
             StaticHelper.showAlert(message: String(localized: "server.error.ssh \(error.localizedDescription)"),error: true)
         }
     }
-
+    
     
     static func removeKnownHosts(message: Bool = true, quiet: Bool = false) -> Bool {
         let fileName = StaticHelper.sshFolderUrl.appendingPathComponent("known_hosts").path
@@ -245,7 +245,6 @@ enum ServersManager {
             return false
         }
     }
-
     static func exportProfiles(profiles: [ServerObject]) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -271,7 +270,18 @@ enum ServersManager {
             StaticHelper.showAlert(message: "Error export profiles get data: \(error)", error: true)
         }
     }
-
-
-    
+    static func isITermInstalled() -> Bool {
+        let fileManager = FileManager.default
+        let potentialPaths = [
+            "/Applications/iTerm.app",
+            "\(NSHomeDirectory())/Applications/iTerm.app"
+        ]
+        
+        for path in potentialPaths {
+            if fileManager.fileExists(atPath: path) {
+                return true
+            }
+        }
+        return false
+    }
 }

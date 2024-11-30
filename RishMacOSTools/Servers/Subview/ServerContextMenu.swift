@@ -13,11 +13,13 @@ struct ServerContextMenu: View {
     var onDelete: () -> Void
     var body: some View {
         VStack {
-            Button(action: {
-                ServersManager.exportProfiles(profiles: [server]);
-            }) {
-                Text("button.server_export.iterm")
-                Image(systemName: "square.and.arrow.up")
+            if ServersManager.isITermInstalled(){
+                Button(action: {
+                    ServersManager.exportProfiles(profiles: [server]);
+                }) {
+                    Text("button.server_export.iterm")
+                    Image(systemName: "square.and.arrow.up")
+                }
             }
             Button(action: {
                 onEdit();

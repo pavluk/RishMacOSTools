@@ -19,7 +19,7 @@ struct ServersView: View {
                     Button(String(localized: "button.server_create"), action: {
                         isCreatedPresented = true
                     })
-                    if !serverViewModel.servers.isEmpty{
+                    if ServersManager.isITermInstalled() && !serverViewModel.servers.isEmpty{
                         Button(action: {
                             ServersManager.exportProfiles(profiles: serverViewModel.servers);
                         }) {
