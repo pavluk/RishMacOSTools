@@ -11,6 +11,7 @@ struct ServerEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var server: ServerObject
     @State private var comment: String = ProcessInfo.processInfo.userName
+    @State private var addKeysToAgent: Bool
     @State private var keys: [String] = [
         String(localized: "option.key.select"),
         String(localized: "button.create_key")
@@ -23,6 +24,7 @@ struct ServerEditView: View {
         _server = State(initialValue: server)
         self.originalServer = _server.wrappedValue
         self.onEdit = onEdit
+        self._addKeysToAgent = State(initialValue: (server.additions["AddKeysToAgent"]?.lowercased() == "yes"))
     }
     
     var body: some View {
@@ -80,20 +82,18 @@ struct ServerEditView: View {
                                 .padding(.horizontal, 5)
                         }
                     }
-                    
+                    HStack {
+                        Text("")
+                            .frame(width: labelWidth, alignment: .leading)
+                        Section {
+                            Toggle("label.server_add_keys_to_agent", isOn: $addKeysToAgent)
+                        }
+                    }
                     HStack {
                         Button(String(localized: "button.server_edit")) {
                             editServer()
                         }
-                        .disabled((server.host == originalServer.host &&
-                                   server.hostname == originalServer.hostname &&
-                                   server.user == originalServer.user &&
-                                   server.keyName == originalServer.keyName)
-                                  || server.hostname.isEmpty
-                                  || server.user.isEmpty
-                                  || server.keyName.isEmpty
-                                  || server.keyName == String(localized: "option.key.select")
-                                  || (server.keyName == String(localized: "button.create_key") && server.key.keyComment.isEmpty))
+                        .disabled(checkDisabled())
                         Spacer()
                         Button(String(localized: "button.cancel")) {
                             presentationMode.wrappedValue.dismiss()
@@ -108,7 +108,6 @@ struct ServerEditView: View {
                 if !keyObjects.isEmpty {
                     keys.append(contentsOf: keyObjects.map { $0.keyName }.sorted { $0.lowercased() < $1.lowercased() })
                 }
-
             }
         }
         
@@ -131,10 +130,43 @@ struct ServerEditView: View {
             }
         }
         server.keyName = keyName
+        if addKeysToAgent{
+            server.additions["AddKeysToAgent"] = "Yes"
+        }
+        else{
+            server.additions.removeValue(forKey: "AddKeysToAgent")
+        }
         let success = ServersManager.editServer(server: &server)
         if success {
             onEdit()
             presentationMode.wrappedValue.dismiss()
         }
+    }
+    
+    private func checkDisabled() -> Bool{
+       var result = (server.host == originalServer.host &&
+                   server.hostname == originalServer.hostname &&
+                   server.user == originalServer.user &&
+                   server.keyName == originalServer.keyName)
+                  || server.hostname.isEmpty
+                  || server.user.isEmpty
+                  || server.keyName.isEmpty
+                  || server.keyName == String(localized: "option.key.select")
+                  || (server.keyName == String(localized: "button.create_key")
+                      && server.key.keyComment.isEmpty)
+        
+        if addKeysToAgent{
+            if originalServer.additions["AddKeysToAgent"] == nil{
+                result = false
+            }
+        }
+        else{
+            if let value = originalServer.additions["AddKeysToAgent"], value.lowercased() == "yes" {
+                result = false
+            }
+        }
+        
+        
+        return result
     }
 }

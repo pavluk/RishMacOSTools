@@ -49,9 +49,9 @@ enum ServersManager {
         return servers
     }
     
-    static func createServer(host: String, hostname: String, user: String, key: String) -> Bool {
+    static func createServer(host: String, hostname: String, user: String, key: String,addKeysToAgent: Bool = true) -> Bool {
         let servers = getServers()
-        if servers.contains(where: { $0.host == host }) {
+        if servers.contains(where: { $0.host.lowercased() == host.lowercased() }) {
             StaticHelper.showAlert(
                 message: String(localized: "server.exist.host"),
                 error: true
@@ -67,7 +67,9 @@ enum ServersManager {
         server.keyName = server.key.keyName
         server.publicKey = server.key.publicKey
         server.additions["Compression"] = "yes"
-        server.additions["AddKeysToAgent"] = "yes"
+        if addKeysToAgent{
+            server.additions["AddKeysToAgent"] = "yes"
+        }
         setServer(server)
         
         if pullServersToFile() {
@@ -82,7 +84,7 @@ enum ServersManager {
     
     static func editServer(server: inout ServerObject) -> Bool {
         let _ = getServers()
-        if let index = servers.firstIndex(where: { $0.host == server.host }) {
+        if let index = servers.firstIndex(where: { $0.host.lowercased() == server.host.lowercased() }) {
             server.key = KeyObject(fileName: server.keyName)
             server.keyName = server.key.keyName
             server.publicKey = server.key.publicKey
@@ -126,7 +128,7 @@ enum ServersManager {
             return false
         }
         
-        if !servers.contains(where: { $0.host == host }) {
+        if !servers.contains(where: { $0.host.lowercased() == host.lowercased() }) {
             StaticHelper.showAlert(
                 message: String(localized: "server.not_exist"),
                 error: true
@@ -249,7 +251,7 @@ enum ServersManager {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         
-        let profileData: AnyEncodable = profiles.count == 1 ? AnyEncodable(ITermProfileObject(server: profiles[0])) : AnyEncodable(["profiles": profiles.filter { $0.host != "*" }.map { ITermProfileObject(server: $0) }])
+        let profileData: AnyEncodable = profiles.count == 1 ? AnyEncodable(ITermProfileObject(server: profiles[0])) : AnyEncodable(["Profiles": profiles.filter { $0.host != "*" }.map { ITermProfileObject(server: $0) }])
         
         do {
             let jsonData = try encoder.encode(profileData)

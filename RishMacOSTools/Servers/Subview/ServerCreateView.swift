@@ -14,6 +14,7 @@ struct ServerCreateView: View {
     @State private var user: String = "root"
     @State private var selectedKey: String = String(localized: "option.key.select")
     @State private var comment: String = ProcessInfo.processInfo.userName
+    @State private var addKeysToAgent: Bool = true
     @State private var keys: [String] = [
         String(localized: "option.key.select"),
         String(localized: "button.create_key")
@@ -78,7 +79,13 @@ struct ServerCreateView: View {
                                 .padding(.horizontal, 5)
                         }
                     }
-                    
+                    HStack {
+                        Text("")
+                            .frame(width: labelWidth, alignment: .leading)
+                        Section {
+                            Toggle("label.server_add_keys_to_agent", isOn: $addKeysToAgent)
+                        }
+                    }
                     HStack {
                         Button(String(localized: "button.server_create")) {
                             createServer()
@@ -128,7 +135,8 @@ struct ServerCreateView: View {
             host: host,
             hostname: hostname,
             user: user,
-            key: keyName
+            key: keyName,
+            addKeysToAgent: addKeysToAgent
         )
         if success {
             onCreate()

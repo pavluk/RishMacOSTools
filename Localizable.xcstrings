@@ -1303,6 +1303,28 @@
         }
       }
     },
+    "label.server_add_keys_to_agent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AddKeysToAgent"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить «AddKeysToAgent»"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати «AddKeysToAgent»"
+          }
+        }
+      }
+    },
     "label.server_command" : {
       "comment" : "Server command label",
       "extractionState" : "manual",
