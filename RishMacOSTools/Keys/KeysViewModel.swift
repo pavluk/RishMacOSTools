@@ -37,8 +37,8 @@ class KeysViewModel: ObservableObject {
         return sshKeys.first { $0.id == id }
     }
     
-    func removeKey(name: String) {
-        if KeysManager.removeKey(name: name) {
+    func removeKey(name: String,showMessage:Bool = true) {
+        if KeysManager.removeKey(name: name,showMessageSuccess:showMessage) {
             loadKeys(force: true)
         }
     }

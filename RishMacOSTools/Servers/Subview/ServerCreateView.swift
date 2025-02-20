@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ServerCreateView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var keysViewModel: KeysViewModel
     @State private var host: String = ""
     @State private var hostname: String = ""
     @State private var user: String = "root"
@@ -128,7 +129,7 @@ struct ServerCreateView: View {
                 message: false
             )
             if create {
-                _ = KeysManager.getKeys(force: true)
+                keysViewModel.loadKeys(force: true)
             }
         }
         let success = ServersManager.createServer(

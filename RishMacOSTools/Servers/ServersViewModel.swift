@@ -35,8 +35,8 @@ class ServersViewModel: ObservableObject {
             .sorted { $0.host.lowercased() < $1.host.lowercased() }
     }
     
-    func removeServer(host: String) {
-        let _ = ServersManager.removeServer(host: host)
+    func removeServer(host: String,deleteKey: Bool = false) {
+        let _ = ServersManager.removeServer(host: host, deleteKey: deleteKey)
         loadServers(force: true)
     }
 }

@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var keysViewModel = KeysViewModel()
+
     var body: some View {
-        TabView {
-            ServersView()
-                .tabItem {
-                    Text(String(localized: "view.servers_name"))
-                }
-            KeysView()
-                .tabItem {
-                    Text(String(localized: "view.keys_name"))
-                }
-        }.tabViewStyle(.automatic)
+        VStack {
+            TabView {
+                ServersView()
+                    .tabItem {
+                        Text(String(localized: "view.servers_name"))
+                    }
+                KeysView()
+                    .tabItem {
+                        Text(String(localized: "view.keys_name"))
+                    }
+            }
+            .tabViewStyle(.automatic)
             .frame(maxHeight: .infinity)
-        
-        FooterView()
+            .environmentObject(keysViewModel)
+
+            FooterView()
+        }
     }
 }
 

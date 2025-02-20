@@ -109,7 +109,7 @@ enum ServersManager {
         
     }
     
-    static func removeServer(host: String) -> Bool {
+    static func removeServer(host: String,deleteKey: Bool = false) -> Bool {
         let _ = getServers(force: true)
         guard !servers.isEmpty else {
             StaticHelper.showAlert(
@@ -141,6 +141,11 @@ enum ServersManager {
         }
         if pullServersToFile() {
             StaticHelper.showAlert(message: String(localized: "server.remove.success"))
+            if deleteKey {
+                if KeysManager.removeKey(name: server.keyName) {
+                    _ = KeysManager.getKeys(force: true)
+                }
+            }
             return true
         } else {
             _ = removeKnownHosts(message: false, quiet: true)

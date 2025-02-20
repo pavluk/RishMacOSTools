@@ -111,17 +111,6 @@ struct ServersView: View {
                           serverViewModel.servers.sort(using: sortOrder)
                       }
                       .navigationTitle("RishMacOSTools")
-                      .alert(isPresented: $showDeleteConfirmation) {
-                          Alert(
-                            title: Text("server.delete '\(serverViewModel.selectedServer?.host ?? "unknown")'?"),
-                            primaryButton: .destructive(Text("button.delete_server")) {
-                                if let server = serverViewModel.selectedServer {
-                                    serverViewModel.removeServer(host: server.host)
-                                }
-                            },
-                            secondaryButton: .cancel()
-                          )
-                      }
             }
             .sheet(isPresented: $isCreatedPresented) {
                 ServerCreateView {
@@ -131,6 +120,13 @@ struct ServersView: View {
             .sheet(isPresented: $isEditPresented) {
                 if let server = serverViewModel.selectedServer {
                     ServerEditView(server: server, onEdit: {
+                        serverViewModel.loadServers(force: true)
+                    })
+                }
+            }
+            .sheet(isPresented: $showDeleteConfirmation) {
+                if let server = serverViewModel.selectedServer {
+                    ServerDeleteView(server: server, onDelete: {
                         serverViewModel.loadServers(force: true)
                     })
                 }

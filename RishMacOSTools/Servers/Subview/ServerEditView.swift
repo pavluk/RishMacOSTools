@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ServerEditView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var keysViewModel: KeysViewModel
     @State var server: ServerObject
     @State private var comment: String = ProcessInfo.processInfo.userName
     @State private var addKeysToAgent: Bool
@@ -126,7 +127,7 @@ struct ServerEditView: View {
                 message: false
             )
             if create {
-                _ = KeysManager.getKeys(force: true)
+                keysViewModel.loadKeys(force: true)
             }
         }
         server.keyName = keyName

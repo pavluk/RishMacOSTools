@@ -165,7 +165,7 @@ enum KeysManager {
         }
     }
     
-    static func removeKey(name: String) -> Bool {
+    static func removeKey(name: String,showMessageSuccess: Bool = true) -> Bool {
         let fileManager = FileManager.default
         let sshFolderPath = StaticHelper.sshFolderUrl.path
         let keyPath = "\(sshFolderPath)/\(name)"
@@ -184,7 +184,9 @@ enum KeysManager {
             if fileManager.fileExists(atPath: pubPath) {
                 try fileManager.trashItem(at: URL(fileURLWithPath: pubPath), resultingItemURL: nil)
             }
-            StaticHelper.showAlert(message: String(localized: "key.delete_success"))
+            if showMessageSuccess{
+                StaticHelper.showAlert(message: String(localized: "key.delete_success"))
+            }
             
             return true
         } catch {

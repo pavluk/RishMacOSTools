@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct KeysView: View {
-    @StateObject private var keysViewModel = KeysViewModel()
+    @EnvironmentObject var keysViewModel: KeysViewModel
     @State private var isInsertionPresented = false
     @State private var isCreatedPresented = false
     @State private var isEditCommentPresented = false
