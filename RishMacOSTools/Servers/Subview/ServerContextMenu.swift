@@ -27,6 +27,23 @@ struct ServerContextMenu: View {
                 Text("button.server_edit")
                 Image(systemName: "pencil")
             }
+            if server.key.keyExist {
+                Button(action: {
+                    StaticHelper.copyToClipboard(text: server.key.publicKey, name: String(localized: "label.key_public"))
+                }) {
+                    Text("label.key_public")
+                    Image(systemName: "doc.on.doc")
+                }
+                Button(action: {
+                    StaticHelper.copyToClipboard(text: server.key.serverCommand, name: String(localized: "label.server_command"))
+                }) {
+                    VStack {
+                        Text("label.server_command")
+                        Image(systemName: "doc.on.doc")
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
             Button(action: {
                 onDelete();
             }) {
