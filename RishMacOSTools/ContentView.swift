@@ -28,6 +28,9 @@ struct ContentView: View {
 
             FooterView()
         }
+        .task {
+            StaticHelper.ensureSSHScaffold()
+        }
     }
 }
 
@@ -53,5 +56,3 @@ struct FooterView: View {
         .padding(.horizontal, 20)
     }
 }
-
-

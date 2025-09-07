@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct KeyCommentEditView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @State var sshKeyEdit: KeyObject
     @State private var comment: String = ""
     var onEdit: () -> Void
@@ -35,7 +35,7 @@ struct KeyCommentEditView: View {
                         Spacer()
                         
                         Button(String(localized: "button.cancel")) {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }
                     }.padding(20)
                 }
@@ -48,14 +48,14 @@ struct KeyCommentEditView: View {
     func editComment() {
         guard !comment.isEmpty else { return }
         guard sshKeyEdit.keyComment != comment else {
-            presentationMode.wrappedValue.dismiss()
+            dismiss()
             return
         }
         let success = KeysManager.editPublicKeyComment(keyName: sshKeyEdit.keyName, newComment: comment)
         if success {
             sshKeyEdit.keyComment = comment
             onEdit()
-            presentationMode.wrappedValue.dismiss()
+            dismiss()
         }
     }
 }
