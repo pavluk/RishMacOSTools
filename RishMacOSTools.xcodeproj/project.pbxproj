@@ -10,6 +10,9 @@
 		8B07E5C62CF5AD1B00EA6245 /* ITermProfileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B07E5C52CF5AD0700EA6245 /* ITermProfileObject.swift */; };
 		8B07E5C82CF5B3EE00EA6245 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B07E5C72CF5B3EC00EA6245 /* AnyEncodable.swift */; };
 		8B18560B2CF21FC700EF60AD /* ServerCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B18560A2CF21FC700EF60AD /* ServerCreateView.swift */; };
+		8B262EB22E6C2C110035EB63 /* UpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B262EB12E6C2C0D0035EB63 /* UpdateChecker.swift */; };
+		8B262EBA2E6C33C50035EB63 /* UpdateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B262EB92E6C33C00035EB63 /* UpdateSheet.swift */; };
+		8B262EBC2E6C41780035EB63 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B262EBB2E6C41740035EB63 /* FooterView.swift */; };
 		8B52AA652CF1F93A00E19915 /* ServerContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52AA642CF1F93A00E19915 /* ServerContextMenu.swift */; };
 		8B5EF8752BE9F1DC007C8A94 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 8B5EF8742BE9F1DC007C8A94 /* Localizable.xcstrings */; };
 		8B644EE42BEE3128009C1DDD /* ServersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B644EE32BEE3128009C1DDD /* ServersView.swift */; };
@@ -30,13 +33,16 @@
 		8BBA00CC2C56598100C523B5 /* KeyContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBA00CB2C56598100C523B5 /* KeyContextMenu.swift */; };
 		8BD1F3BD2CF33F6D009ED431 /* ServerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1F3BC2CF33F6D009ED431 /* ServerEditView.swift */; };
 		8BF30AA52D673E1000E1F610 /* ServerDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF30AA42D673E1000E1F610 /* ServerDeleteView.swift */; };
-		8BF6038E2C0C7E920003F2A6 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF6038D2C0C7E920003F2A6 /* Helpers.swift */; };
+		8BF6038E2C0C7E920003F2A6 /* StaticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF6038D2C0C7E920003F2A6 /* StaticHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8B07E5C52CF5AD0700EA6245 /* ITermProfileObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITermProfileObject.swift; sourceTree = "<group>"; };
 		8B07E5C72CF5B3EC00EA6245 /* AnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
 		8B18560A2CF21FC700EF60AD /* ServerCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCreateView.swift; sourceTree = "<group>"; };
+		8B262EB12E6C2C0D0035EB63 /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
+		8B262EB92E6C33C00035EB63 /* UpdateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSheet.swift; sourceTree = "<group>"; };
+		8B262EBB2E6C41740035EB63 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		8B52AA642CF1F93A00E19915 /* ServerContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerContextMenu.swift; sourceTree = "<group>"; };
 		8B5EF8742BE9F1DC007C8A94 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		8B644EE32BEE3128009C1DDD /* ServersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersView.swift; sourceTree = "<group>"; };
@@ -59,7 +65,7 @@
 		8BBA00CB2C56598100C523B5 /* KeyContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyContextMenu.swift; sourceTree = "<group>"; };
 		8BD1F3BC2CF33F6D009ED431 /* ServerEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEditView.swift; sourceTree = "<group>"; };
 		8BF30AA42D673E1000E1F610 /* ServerDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDeleteView.swift; sourceTree = "<group>"; };
-		8BF6038D2C0C7E920003F2A6 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		8BF6038D2C0C7E920003F2A6 /* StaticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +79,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B262EAE2E6C2B7F0035EB63 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8B644EE52BEE3257009C1DDD /* ServerObject.swift */,
+				8B07E5C52CF5AD0700EA6245 /* ITermProfileObject.swift */,
+				8B9E5F792BE8F96E002E62CB /* KeyObject.swift */,
+				8B07E5C72CF5B3EC00EA6245 /* AnyEncodable.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8B262EB42E6C2D9C0035EB63 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8B262EBB2E6C41740035EB63 /* FooterView.swift */,
+				8B9E5F612BE8B0AA002E62CB /* RishMacOSToolsApp.swift */,
+				8B9E5F632BE8B0AA002E62CB /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		8B262EB52E6C2DC10035EB63 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8B262EB82E6C33AD0035EB63 /* Update */,
+				8B644EE22BEE3036009C1DDD /* Servers */,
+				8B9E5F782BE8F909002E62CB /* Keys */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8B262EB62E6C2E0B0035EB63 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8B644EE92BF2354B009C1DDD /* ServersViewModel.swift */,
+				8BA1456F2BEB3AC400DD0570 /* KeysViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8B262EB72E6C2F620035EB63 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8B644EE72BF21E91009C1DDD /* ServersManager.swift */,
+				8BACCBCF2BE9291F00D0DC6B /* KeysManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8B262EB82E6C33AD0035EB63 /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				8B262EB92E6C33C00035EB63 /* UpdateSheet.swift */,
+			);
+			path = Update;
+			sourceTree = "<group>";
+		};
 		8B52AA672CF1FBE800E19915 /* Subview */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,10 +152,6 @@
 			children = (
 				8B52AA672CF1FBE800E19915 /* Subview */,
 				8B644EE32BEE3128009C1DDD /* ServersView.swift */,
-				8B644EE52BEE3257009C1DDD /* ServerObject.swift */,
-				8B07E5C52CF5AD0700EA6245 /* ITermProfileObject.swift */,
-				8B644EE72BF21E91009C1DDD /* ServersManager.swift */,
-				8B644EE92BF2354B009C1DDD /* ServersViewModel.swift */,
 			);
 			path = Servers;
 			sourceTree = "<group>";
@@ -100,8 +159,8 @@
 		8B9B05B72C034D9100FAD854 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				8B07E5C72CF5B3EC00EA6245 /* AnyEncodable.swift */,
-				8BF6038D2C0C7E920003F2A6 /* Helpers.swift */,
+				8B262EB12E6C2C0D0035EB63 /* UpdateChecker.swift */,
+				8BF6038D2C0C7E920003F2A6 /* StaticHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -126,11 +185,12 @@
 		8B9E5F602BE8B0AA002E62CB /* RishMacOSTools */ = {
 			isa = PBXGroup;
 			children = (
-				8B9E5F612BE8B0AA002E62CB /* RishMacOSToolsApp.swift */,
-				8B9E5F632BE8B0AA002E62CB /* ContentView.swift */,
+				8B262EB42E6C2D9C0035EB63 /* App */,
+				8B262EB52E6C2DC10035EB63 /* Views */,
+				8B262EB62E6C2E0B0035EB63 /* ViewModels */,
+				8B262EAE2E6C2B7F0035EB63 /* Models */,
+				8B262EB72E6C2F620035EB63 /* Services */,
 				8B9B05B72C034D9100FAD854 /* Utils */,
-				8B644EE22BEE3036009C1DDD /* Servers */,
-				8B9E5F782BE8F909002E62CB /* Keys */,
 				8B9E5F652BE8B0AB002E62CB /* Assets.xcassets */,
 				8B9E5F6A2BE8B0AB002E62CB /* RishMacOSTools.entitlements */,
 				8B9E5F672BE8B0AB002E62CB /* Preview Content */,
@@ -150,10 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				8BBA00C22C54ED5B00C523B5 /* Subview */,
-				8B9E5F792BE8F96E002E62CB /* KeyObject.swift */,
-				8BACCBCF2BE9291F00D0DC6B /* KeysManager.swift */,
 				8B9E5F712BE8B1B5002E62CB /* KeysView.swift */,
-				8BA1456F2BEB3AC400DD0570 /* KeysViewModel.swift */,
 			);
 			path = Keys;
 			sourceTree = "<group>";
@@ -248,11 +305,13 @@
 				8B644EEA2BF2354B009C1DDD /* ServersViewModel.swift in Sources */,
 				8B52AA652CF1F93A00E19915 /* ServerContextMenu.swift in Sources */,
 				8BA145702BEB3AC400DD0570 /* KeysViewModel.swift in Sources */,
+				8B262EBA2E6C33C50035EB63 /* UpdateSheet.swift in Sources */,
 				8B07E5C82CF5B3EE00EA6245 /* AnyEncodable.swift in Sources */,
+				8B262EB22E6C2C110035EB63 /* UpdateChecker.swift in Sources */,
 				8BBA00C62C54EDC100C523B5 /* KeyCreateView.swift in Sources */,
 				8B9E5F642BE8B0AA002E62CB /* ContentView.swift in Sources */,
 				8BBA00C42C54ED7A00C523B5 /* KeyInsertionView.swift in Sources */,
-				8BF6038E2C0C7E920003F2A6 /* Helpers.swift in Sources */,
+				8BF6038E2C0C7E920003F2A6 /* StaticHelper.swift in Sources */,
 				8B644EE62BEE3257009C1DDD /* ServerObject.swift in Sources */,
 				8BACCBD02BE9291F00D0DC6B /* KeysManager.swift in Sources */,
 				8BBA00CC2C56598100C523B5 /* KeyContextMenu.swift in Sources */,
@@ -261,6 +320,7 @@
 				8B9E5F622BE8B0AA002E62CB /* RishMacOSToolsApp.swift in Sources */,
 				8B9E5F7A2BE8F96E002E62CB /* KeyObject.swift in Sources */,
 				8BF30AA52D673E1000E1F610 /* ServerDeleteView.swift in Sources */,
+				8B262EBC2E6C41780035EB63 /* FooterView.swift in Sources */,
 				8B9E5F722BE8B1B5002E62CB /* KeysView.swift in Sources */,
 				8B644EE82BF21E91009C1DDD /* ServersManager.swift in Sources */,
 			);
@@ -416,7 +476,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ArtemPavluk.RishMacOSTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -448,7 +508,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ArtemPavluk.RishMacOSTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

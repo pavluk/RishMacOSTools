@@ -183,7 +183,7 @@ enum ServersManager {
             }
             
             let sortedServers = servers.sorted(by: { $0.host < $1.host })
-            let content = sortedServers.map { $0.toConfigFileString() }.joined(separator: "\n")
+            let content = sortedServers.map { $0.toConfigFileString() }.joined(separator: "\n\n")
             
             let fm = FileManager.default
             let configURL = URL(fileURLWithPath: configPath)
