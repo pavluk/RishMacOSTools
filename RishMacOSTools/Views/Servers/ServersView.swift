@@ -12,45 +12,153 @@ struct ServersView: View {
     @State private var isCreatedPresented = false
     @State private var isEditPresented = false
     @State private var showDeleteConfirmation = false
-    var body: some View{
+    @State private var hoveredId: UUID?
+
+    var body: some View {
         NavigationStack {
             VStack {
                 HStack {
-                    Button(String(localized: "button.server_create"), action: {
+                    Button(String(localized: "button.server_create")) {
                         isCreatedPresented = true
-                    })
-                    if ServersManager.isITermInstalled() && !serverViewModel.servers.isEmpty{
-                        Button(action: {
-                            ServersManager.exportProfiles(profiles: serverViewModel.servers);
-                        }) {
-                            Text("button.server_export_all.iterm")
-                        }
                     }
-                    Button(action: {
+                    Button {
                         serverViewModel.loadServers(force: true)
-                    }) {
+                    } label: {
                         Image(systemName: "arrow.clockwise")
                             .font(.system(size: 16))
                             .foregroundColor(.gray)
                     }
                     .buttonStyle(BorderlessButtonStyle())
+
                     Spacer()
-                    Button(String(localized: "button.delete.known_hosts"), action: {
+
+                    Button(String(localized: "button.delete.known_hosts")) {
                         _ = ServersManager.removeKnownHosts()
-                    })
-                    Button(String(localized: "button.open_folder_ssh"), action: {
+                    }
+                    Button(String(localized: "button.open_folder_ssh")) {
                         NSWorkspace.shared.open(StaticHelper.sshFolderUrl)
-                    })
+                    }
                 }
                 .padding(8)
-                Table(serverViewModel.list.filter { $0.host != "*" },
-                      sortOrder: $serverViewModel.sortOrder) {
-                    TableColumn("label.server_host", value: \.host) { server in
-                        Text(server.host)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .frame(height: 44)
-                            .contentShape(Rectangle())
-                            .contextMenu{
+
+                List {
+                    ForEach(Array(serverViewModel.list.filter { $0.host != "*" }.enumerated()), id: \.element.id) { index, server in
+                        ZStack {
+                            HStack {
+                                // Row number
+                                Text("\(index + 1)")
+                                    .frame(width: 30, alignment: .leading)
+                                    .fontWeight(.bold)
+
+                                // Host
+                                Button {
+                                    if serverViewModel.isConnectingHost == nil {
+                                        serverViewModel.connectToServer(host: server.host)
+                                    }
+                                } label: {
+                                    Text(server.host)
+                                        .fontWeight(.bold)
+                                        .frame(width: 160, alignment: .leading)
+                                        .contentShape(Rectangle())
+                                }
+                                .buttonStyle(.bordered)
+                                .help(String(localized: "button.server_connect"))
+
+                                // Hostname
+                                Text(server.hostname)
+                                    .frame(width: 160, alignment: .leading)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        StaticHelper.copyToClipboard(
+                                            text: server.hostname,
+                                            name: String(localized: "label.server_hostname")
+                                        )
+                                    }
+                                    .help(String(localized: "label.server_hostname"))
+
+                                // User
+                                Text(server.user)
+                                    .frame(width: 100, alignment: .leading)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        StaticHelper.copyToClipboard(
+                                            text: server.user,
+                                            name: String(localized: "label.server_user")
+                                        )
+                                    }
+                                    .help(String(localized: "label.server_user"))
+
+                                // Key name + copy buttons (icons on the left)
+                                HStack(spacing: 8) {
+                                    Button {
+                                        StaticHelper.copyToClipboard(
+                                            text: server.key.serverCommand,
+                                            name: String(localized: "label.server_command")
+                                        )
+                                    } label: {
+                                        Image(systemName: "apple.terminal.on.rectangle")
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .help(String(localized: "label.server_command"))
+
+                                    Button {
+                                        StaticHelper.copyToClipboard(
+                                            text: server.key.publicKey,
+                                            name: String(localized: "label.key_public")
+                                        )
+                                    } label: {
+                                        Image(systemName: "key")
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .help(String(localized: "label.key_public"))
+
+                                    Text(server.keyName)
+                                        .fontWeight(.medium)
+                                        .frame(width: 100, alignment: .leading)
+                                        .contentShape(Rectangle())
+                                        .onTapGesture {
+                                            StaticHelper.copyToClipboard(
+                                                text: server.key.publicKey,
+                                                name: String(localized: "label.key_public")
+                                            )
+                                        }
+                                        .help(String(localized: "label.key_name"))
+                                }
+
+                                Spacer()
+
+                                // Actions
+                                HStack(spacing: 12) {
+                                    Button {
+                                        serverViewModel.selectedServer = server
+                                        isEditPresented = true
+                                    } label: {
+                                        Image(systemName: "pencil")
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .help(String(localized: "button.server_edit"))
+
+                                    Button {
+                                        serverViewModel.selectedServer = server
+                                        showDeleteConfirmation = true
+                                    } label: {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.red)
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .help(String(localized: "button.delete_server"))
+                                }
+                            }
+                            .padding(.vertical, 4)
+                            .background(
+                                hoveredId == server.id
+                                ? Color.gray.opacity(0.15)
+                                : Color.clear
+                            )
+                            .onHover { hovering in
+                                hoveredId = hovering ? server.id : nil
+                            }
+                            .contextMenu {
                                 ServerContextMenu(server: server) {
                                     serverViewModel.selectedServer = server
                                     isEditPresented = true
@@ -59,58 +167,19 @@ struct ServersView: View {
                                     showDeleteConfirmation = true
                                 }
                             }
-                    }
-                    TableColumn("label.server_hostname", value: \.hostname) { server in
-                        Text(server.hostname)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .frame(height: 44)
-                            .contentShape(Rectangle())
-                            .contextMenu{
-                                ServerContextMenu(server: server) {
-                                    serverViewModel.selectedServer = server
-                                    isEditPresented = true
-                                } onDelete: {
-                                    serverViewModel.selectedServer = server
-                                    showDeleteConfirmation = true
-                                }
+
+                            // Overlay when connecting
+                            if serverViewModel.isConnectingHost == server.host {
+                                Color.black.opacity(0.25)
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
                             }
-                    }
-                    TableColumn("label.server_user", value: \.user) { server in
-                        Text(server.user)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .frame(height: 44)
-                            .contentShape(Rectangle())
-                            .contextMenu{
-                                ServerContextMenu(server: server) {
-                                    serverViewModel.selectedServer = server
-                                    isEditPresented = true
-                                } onDelete: {
-                                    serverViewModel.selectedServer = server
-                                    showDeleteConfirmation = true
-                                }
-                            }
-                    }
-                    TableColumn("label.key_name", value: \.keyName) { server in
-                        Text(server.keyName)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .frame(height: 44)
-                            .contentShape(Rectangle())
-                            .contextMenu{
-                                ServerContextMenu(server: server) {
-                                    serverViewModel.selectedServer = server
-                                    isEditPresented = true
-                                } onDelete: {
-                                    serverViewModel.selectedServer = server
-                                    showDeleteConfirmation = true
-                                }
-                            }
+                        }
                     }
                 }
-                      .searchable(text: $serverViewModel.searchText)
-                      .onChange(of: serverViewModel.sortOrder) { _, sortOrder in
-                          serverViewModel.servers.sort(using: sortOrder)
-                      }
-                      .navigationTitle("RishMacOSTools")
+                .listStyle(.inset)
+                .searchable(text: $serverViewModel.searchText)
+                .navigationTitle("RishMacOSTools")
             }
             .sheet(isPresented: $isCreatedPresented) {
                 ServerCreateView {
@@ -119,23 +188,18 @@ struct ServersView: View {
             }
             .sheet(isPresented: $isEditPresented) {
                 if let server = serverViewModel.selectedServer {
-                    ServerEditView(server: server, onEdit: {
+                    ServerEditView(server: server) {
                         serverViewModel.loadServers(force: true)
-                    })
+                    }
                 }
             }
             .sheet(isPresented: $showDeleteConfirmation) {
                 if let server = serverViewModel.selectedServer {
-                    ServerDeleteView(server: server, onDelete: {
+                    ServerDeleteView(server: server) {
                         serverViewModel.loadServers(force: true)
-                    })
+                    }
                 }
             }
         }
-        
     }
-}
-
-#Preview {
-    ServersView()
 }

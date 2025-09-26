@@ -101,7 +101,7 @@ enum ServersManager {
     static func editServer(server: inout ServerObject) -> Bool {
         let normalizedHost = server.host.lowercased()
         server.host = normalizedHost
-
+        
         let _ = getServers()
         if let index = servers.firstIndex(where: { $0.host.lowercased() == normalizedHost }) {
             server.key = KeyObject(fileName: server.keyName)
@@ -224,28 +224,6 @@ enum ServersManager {
         }
     }
     
-    static func connectToServer(host: String, user: String? = nil) {
-        var sshCommand = "ssh \(host)"
-        if let user = user, !user.isEmpty {
-            sshCommand = "ssh \(user)@\(host)"
-        }
-        
-        let appleScriptCommand = """
-        osascript -e 'tell application "Terminal"
-            do script "\(sshCommand)"
-            activate
-        end tell'
-        """
-        do {
-            let process = Process()
-            process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
-            process.arguments = ["bash", "-c", appleScriptCommand]
-            try process.run()
-        } catch {
-            StaticHelper.showAlert(message: String(localized: "server.error.ssh \(error.localizedDescription)"), error: true)
-        }
-    }
-    
     static func removeKnownHosts(message: Bool = true, quiet: Bool = false) -> Bool {
         let fileName = StaticHelper.sshFolderUrl.appendingPathComponent("known_hosts").path
         guard FileManager.default.fileExists(atPath: fileName) else { return true }
@@ -292,19 +270,121 @@ enum ServersManager {
         }
     }
     
-    static func isITermInstalled() -> Bool {
-        let fileManager = FileManager.default
-        let potentialPaths = [
-            "/Applications/iTerm.app",
-            "\(NSHomeDirectory())/Applications/iTerm.app"
-        ]
+    static func connectToServer(host: String) {
+        let sshCommand = "ssh \(host)"
+        // Get user settings
+        let settings = AppSettings.shared
+        let selectedId = settings.preferredTerminal
+        var terminal = TerminalApp.byId(selectedId)
         
-        for path in potentialPaths {
-            if fileManager.fileExists(atPath: path) {
-                return true
+        // Fallback if selected not installed
+        if !terminal.path.isEmpty && !FileManager.default.fileExists(atPath: terminal.path) {
+            terminal = .defaultTerminal
+        }
+        
+        runInTerminalApp(command: sshCommand, terminal: terminal)
+    }
+    
+    private static func runInTerminalApp(command: String, terminal: TerminalApp) {
+        do {
+            switch terminal.id {
+            case "iterm":
+                let script = """
+                tell application "iTerm"
+                    activate
+                    if (count of windows) = 0 then
+                        create window with default profile
+                        tell current session of current window
+                            write text "\(command)"
+                        end tell
+                    else
+                        tell current window
+                            create tab with default profile
+                            tell current session
+                                write text "\(command)"
+                            end tell
+                        end tell
+                    end if
+                end tell
+                """
+                try runAppleScript(script)
+
+            case "alacritty":
+                if let exec = resolveExecutable([
+                    "/Applications/Alacritty.app/Contents/MacOS/alacritty",
+                    "/opt/homebrew/bin/alacritty",
+                    "/usr/local/bin/alacritty"
+                ]) {
+                    try runProcess(executable: exec, args: ["-e", "bash", "-lc", command])
+                } else {
+                    throw NSError(domain: "Terminal", code: 1,
+                                  userInfo: [NSLocalizedDescriptionKey: "alacritty not found"])
+                }
+
+            case "kitty":
+                if let exec = resolveExecutable([
+                    "/Applications/kitty.app/Contents/MacOS/kitty",
+                    "/opt/homebrew/bin/kitty",
+                    "/usr/local/bin/kitty"
+                ]) {
+                    let parts = command.split(separator: " ").map(String.init)
+                    try runProcess(executable: exec, args: parts)
+                } else {
+                    throw NSError(domain: "Terminal", code: 1,
+                                  userInfo: [NSLocalizedDescriptionKey: "kitty not found"])
+                }
+            default:
+                let escaped = command
+                    .replacingOccurrences(of: "\\", with: "\\\\")
+                    .replacingOccurrences(of: "\"", with: "\\\"")
+
+                let script = """
+                tell application "Terminal"
+                    activate
+                    if not (exists window 1) then
+                        do script "\(escaped)"
+                    else
+                        tell front window
+                            set newTab to (do script "")
+                            set selected tab to newTab
+                            delay 0.2
+                            do script "\(escaped)" in newTab
+                        end tell
+                    end if
+                end tell
+                """
+                try runAppleScript(script)
+            }
+        } catch {
+            StaticHelper.showAlert(
+                message: "server.error.ssh \(error.localizedDescription)",
+                error: true
+            )
+        }
+    }
+
+    private static func resolveExecutable(_ candidates: [String]) -> String? {
+        let fm = FileManager.default
+        for path in candidates {
+            if fm.fileExists(atPath: path) {
+                return path
             }
         }
-        return false
+        return nil
+    }
+
+    private static func runAppleScript(_ script: String) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+        process.arguments = ["-e", script]
+        try process.run()
+        process.waitUntilExit()
+    }
+
+    private static func runProcess(executable: String, args: [String]) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: executable)
+        process.arguments = args
+        try process.run()
     }
 }
-

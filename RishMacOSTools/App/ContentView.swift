@@ -12,19 +12,30 @@ struct ContentView: View {
     @StateObject var keysViewModel = KeysViewModel()
     @State private var updateRelease: GitHubRelease?
 
+    // Select TabViewStyle depending on macOS version
+    private var adaptiveTabViewStyle: some TabViewStyle {
+        if #available(macOS 15.0, *) {
+            return .sidebarAdaptable
+        } else {
+            return .automatic
+        }
+    }
+
     var body: some View {
         VStack {
             TabView {
                 ServersView()
-                    .tabItem { Text(String(localized: "view.servers_name")) }
+                    .tabItem { Label(String(localized: "view.servers_name"), systemImage: "server.rack") }
+
                 KeysView()
-                    .tabItem { Text(String(localized: "view.keys_name")) }
+                    .tabItem { Label(String(localized: "view.keys_name"), systemImage: "key.fill") }
+
+                AboutView()
+                .tabItem { Label(String(localized: "about.title"), systemImage: "info.circle") }
             }
-            .tabViewStyle(.automatic)
+            .tabViewStyle(adaptiveTabViewStyle)
             .frame(maxHeight: .infinity)
             .environmentObject(keysViewModel)
-
-            FooterView(updateRelease: $updateRelease)
         }
         .task {
             _ = StaticHelper.ensureSSHScaffold()
@@ -41,9 +52,7 @@ struct ContentView: View {
         switch result {
         case .updateAvailable(let rel):
             updateRelease = rel
-        case .upToDate:
-            break
-        case .failure:
+        case .upToDate, .failure:
             break
         }
     }

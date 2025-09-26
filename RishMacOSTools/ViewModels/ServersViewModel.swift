@@ -12,6 +12,7 @@ class ServersViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var sortOrder: [KeyPathComparator<ServerObject>] = [KeyPathComparator(\ServerObject.host)]
     @Published var selectedServer: ServerObject?
+    @Published var isConnectingHost: String? = nil
     
     var list: [ServerObject] {
         if searchText.isEmpty || searchText.count < 2 {
@@ -39,4 +40,16 @@ class ServersViewModel: ObservableObject {
         let _ = ServersManager.removeServer(host: host, deleteKey: deleteKey)
         loadServers(force: true)
     }
+    func connectToServer(host: String) {
+        isConnectingHost = host
+        DispatchQueue.global().async {
+            ServersManager.connectToServer(host: host)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.isConnectingHost = nil
+            }
+        }
+    }
+    func indexOf(_ server: ServerObject) -> Int? {
+           list.firstIndex { $0.id == server.id }
+       }
 }

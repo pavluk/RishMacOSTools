@@ -11,16 +11,19 @@ struct ServerContextMenu: View {
     var server: ServerObject
     var onEdit: () -> Void
     var onDelete: () -> Void
+    @StateObject private var serverViewModel = ServersViewModel()
     var body: some View {
         VStack {
-            if ServersManager.isITermInstalled(){
-                Button(action: {
-                    ServersManager.exportProfiles(profiles: [server]);
-                }) {
-                    Text("button.server_export.iterm")
-                    Image(systemName: "square.and.arrow.up")
+            Button(action: {
+                if serverViewModel.isConnectingHost == nil {
+                    serverViewModel.connectToServer(host: server.host)
                 }
+            }) {
+                Text("button.server_connect")
+                Image(systemName: "server.rack")
             }
+            .disabled(serverViewModel.isConnectingHost == server.host)
+            .help(String(localized: "button.server_connect"))
             Button(action: {
                 onEdit();
             }) {

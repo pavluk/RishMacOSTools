@@ -10,6 +10,7 @@ import AppKit
 
 struct StaticHelper {
     static let sshFolderUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".ssh")
+    static let rowHeight: CGFloat = 15
     static func copyToClipboard(text: String,name: String) {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(text, forType: .string)
@@ -18,12 +19,14 @@ struct StaticHelper {
         
     }
     
-    static func showAlert(message: String,error:Bool = false) {
-        let alert = NSAlert()
-        alert.messageText = message
-        alert.alertStyle = (error) ? .critical : .informational
-        alert.addButton(withTitle: "OK")
-        alert.runModal()
+    static func showAlert(message: String, error: Bool = false) {
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.messageText = message
+            alert.alertStyle = (error ? .critical : .informational)
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
+        }
     }
     
     static func filterToLatin(_ input: String) -> String {

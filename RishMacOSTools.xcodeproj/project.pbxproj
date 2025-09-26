@@ -12,13 +12,17 @@
 		8B18560B2CF21FC700EF60AD /* ServerCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B18560A2CF21FC700EF60AD /* ServerCreateView.swift */; };
 		8B262EB22E6C2C110035EB63 /* UpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B262EB12E6C2C0D0035EB63 /* UpdateChecker.swift */; };
 		8B262EBA2E6C33C50035EB63 /* UpdateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B262EB92E6C33C00035EB63 /* UpdateSheet.swift */; };
-		8B262EBC2E6C41780035EB63 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B262EBB2E6C41740035EB63 /* FooterView.swift */; };
+		8B33E5142E7D70D300782020 /* TerminalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B33E5132E7D70D300782020 /* TerminalApp.swift */; };
+		8B33E5162E7D722A00782020 /* SettingsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B33E5152E7D722700782020 /* SettingsKeys.swift */; };
+		8B33E5182E7D725B00782020 /* TerminalDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B33E5172E7D725800782020 /* TerminalDetector.swift */; };
+		8B33E51B2E7D72E800782020 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B33E51A2E7D72E400782020 /* SettingsView.swift */; };
 		8B52AA652CF1F93A00E19915 /* ServerContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52AA642CF1F93A00E19915 /* ServerContextMenu.swift */; };
 		8B5EF8752BE9F1DC007C8A94 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 8B5EF8742BE9F1DC007C8A94 /* Localizable.xcstrings */; };
 		8B644EE42BEE3128009C1DDD /* ServersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B644EE32BEE3128009C1DDD /* ServersView.swift */; };
 		8B644EE62BEE3257009C1DDD /* ServerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B644EE52BEE3257009C1DDD /* ServerObject.swift */; };
 		8B644EE82BF21E91009C1DDD /* ServersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B644EE72BF21E91009C1DDD /* ServersManager.swift */; };
 		8B644EEA2BF2354B009C1DDD /* ServersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B644EE92BF2354B009C1DDD /* ServersViewModel.swift */; };
+		8B9D77202E8133C100DD3D01 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9D771F2E8133BF00DD3D01 /* AppSettings.swift */; };
 		8B9E5F622BE8B0AA002E62CB /* RishMacOSToolsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9E5F612BE8B0AA002E62CB /* RishMacOSToolsApp.swift */; };
 		8B9E5F642BE8B0AA002E62CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9E5F632BE8B0AA002E62CB /* ContentView.swift */; };
 		8B9E5F662BE8B0AB002E62CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B9E5F652BE8B0AB002E62CB /* Assets.xcassets */; };
@@ -34,6 +38,7 @@
 		8BD1F3BD2CF33F6D009ED431 /* ServerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1F3BC2CF33F6D009ED431 /* ServerEditView.swift */; };
 		8BF30AA52D673E1000E1F610 /* ServerDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF30AA42D673E1000E1F610 /* ServerDeleteView.swift */; };
 		8BF6038E2C0C7E920003F2A6 /* StaticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF6038D2C0C7E920003F2A6 /* StaticHelper.swift */; };
+		8BFFD4FD2E8692450042DA98 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFD4FC2E8692420042DA98 /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,13 +47,17 @@
 		8B18560A2CF21FC700EF60AD /* ServerCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCreateView.swift; sourceTree = "<group>"; };
 		8B262EB12E6C2C0D0035EB63 /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
 		8B262EB92E6C33C00035EB63 /* UpdateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSheet.swift; sourceTree = "<group>"; };
-		8B262EBB2E6C41740035EB63 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
+		8B33E5132E7D70D300782020 /* TerminalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalApp.swift; sourceTree = "<group>"; };
+		8B33E5152E7D722700782020 /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
+		8B33E5172E7D725800782020 /* TerminalDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalDetector.swift; sourceTree = "<group>"; };
+		8B33E51A2E7D72E400782020 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		8B52AA642CF1F93A00E19915 /* ServerContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerContextMenu.swift; sourceTree = "<group>"; };
 		8B5EF8742BE9F1DC007C8A94 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		8B644EE32BEE3128009C1DDD /* ServersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersView.swift; sourceTree = "<group>"; };
 		8B644EE52BEE3257009C1DDD /* ServerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerObject.swift; sourceTree = "<group>"; };
 		8B644EE72BF21E91009C1DDD /* ServersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersManager.swift; sourceTree = "<group>"; };
 		8B644EE92BF2354B009C1DDD /* ServersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersViewModel.swift; sourceTree = "<group>"; };
+		8B9D771F2E8133BF00DD3D01 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		8B9E5F5E2BE8B0AA002E62CB /* RishMacOSTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RishMacOSTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B9E5F612BE8B0AA002E62CB /* RishMacOSToolsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RishMacOSToolsApp.swift; sourceTree = "<group>"; };
 		8B9E5F632BE8B0AA002E62CB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,6 +75,7 @@
 		8BD1F3BC2CF33F6D009ED431 /* ServerEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEditView.swift; sourceTree = "<group>"; };
 		8BF30AA42D673E1000E1F610 /* ServerDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDeleteView.swift; sourceTree = "<group>"; };
 		8BF6038D2C0C7E920003F2A6 /* StaticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticHelper.swift; sourceTree = "<group>"; };
+		8BFFD4FC2E8692420042DA98 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +96,7 @@
 				8B07E5C52CF5AD0700EA6245 /* ITermProfileObject.swift */,
 				8B9E5F792BE8F96E002E62CB /* KeyObject.swift */,
 				8B07E5C72CF5B3EC00EA6245 /* AnyEncodable.swift */,
+				8B33E5132E7D70D300782020 /* TerminalApp.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -93,7 +104,7 @@
 		8B262EB42E6C2D9C0035EB63 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				8B262EBB2E6C41740035EB63 /* FooterView.swift */,
+				8BFFD4FC2E8692420042DA98 /* AboutView.swift */,
 				8B9E5F612BE8B0AA002E62CB /* RishMacOSToolsApp.swift */,
 				8B9E5F632BE8B0AA002E62CB /* ContentView.swift */,
 			);
@@ -103,6 +114,7 @@
 		8B262EB52E6C2DC10035EB63 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8B33E5192E7D72CE00782020 /* Settings */,
 				8B262EB82E6C33AD0035EB63 /* Update */,
 				8B644EE22BEE3036009C1DDD /* Servers */,
 				8B9E5F782BE8F909002E62CB /* Keys */,
@@ -136,6 +148,14 @@
 			path = Update;
 			sourceTree = "<group>";
 		};
+		8B33E5192E7D72CE00782020 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				8B33E51A2E7D72E400782020 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		8B52AA672CF1FBE800E19915 /* Subview */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +179,9 @@
 		8B9B05B72C034D9100FAD854 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				8B9D771F2E8133BF00DD3D01 /* AppSettings.swift */,
+				8B33E5172E7D725800782020 /* TerminalDetector.swift */,
+				8B33E5152E7D722700782020 /* SettingsKeys.swift */,
 				8B262EB12E6C2C0D0035EB63 /* UpdateChecker.swift */,
 				8BF6038D2C0C7E920003F2A6 /* StaticHelper.swift */,
 			);
@@ -300,12 +323,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BBA00C82C54EDF200C523B5 /* KeyCommentEditView.swift in Sources */,
+				8B33E5142E7D70D300782020 /* TerminalApp.swift in Sources */,
 				8B18560B2CF21FC700EF60AD /* ServerCreateView.swift in Sources */,
 				8B644EE42BEE3128009C1DDD /* ServersView.swift in Sources */,
+				8BFFD4FD2E8692450042DA98 /* AboutView.swift in Sources */,
 				8B644EEA2BF2354B009C1DDD /* ServersViewModel.swift in Sources */,
 				8B52AA652CF1F93A00E19915 /* ServerContextMenu.swift in Sources */,
 				8BA145702BEB3AC400DD0570 /* KeysViewModel.swift in Sources */,
 				8B262EBA2E6C33C50035EB63 /* UpdateSheet.swift in Sources */,
+				8B9D77202E8133C100DD3D01 /* AppSettings.swift in Sources */,
 				8B07E5C82CF5B3EE00EA6245 /* AnyEncodable.swift in Sources */,
 				8B262EB22E6C2C110035EB63 /* UpdateChecker.swift in Sources */,
 				8BBA00C62C54EDC100C523B5 /* KeyCreateView.swift in Sources */,
@@ -314,13 +340,15 @@
 				8BF6038E2C0C7E920003F2A6 /* StaticHelper.swift in Sources */,
 				8B644EE62BEE3257009C1DDD /* ServerObject.swift in Sources */,
 				8BACCBD02BE9291F00D0DC6B /* KeysManager.swift in Sources */,
+				8B33E5182E7D725B00782020 /* TerminalDetector.swift in Sources */,
+				8B33E5162E7D722A00782020 /* SettingsKeys.swift in Sources */,
 				8BBA00CC2C56598100C523B5 /* KeyContextMenu.swift in Sources */,
 				8BD1F3BD2CF33F6D009ED431 /* ServerEditView.swift in Sources */,
 				8B07E5C62CF5AD1B00EA6245 /* ITermProfileObject.swift in Sources */,
+				8B33E51B2E7D72E800782020 /* SettingsView.swift in Sources */,
 				8B9E5F622BE8B0AA002E62CB /* RishMacOSToolsApp.swift in Sources */,
 				8B9E5F7A2BE8F96E002E62CB /* KeyObject.swift in Sources */,
 				8BF30AA52D673E1000E1F610 /* ServerDeleteView.swift in Sources */,
-				8B262EBC2E6C41780035EB63 /* FooterView.swift in Sources */,
 				8B9E5F722BE8B1B5002E62CB /* KeysView.swift in Sources */,
 				8B644EE82BF21E91009C1DDD /* ServersManager.swift in Sources */,
 			);
@@ -476,7 +504,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ArtemPavluk.RishMacOSTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -508,7 +536,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ArtemPavluk.RishMacOSTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

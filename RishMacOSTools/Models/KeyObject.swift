@@ -16,16 +16,24 @@ struct KeyObject: Identifiable {
     var publicKeyPath: String = ""
     var serverCommand: String = ""
     var keyExist: Bool = false
-    
+
     init(fileName: String? = nil) {
         path = ""
         guard let fileName = fileName else { return }
-        
-        keyName = URL(fileURLWithPath: fileName).deletingPathExtension().lastPathComponent
+
+        let fileURL = URL(fileURLWithPath: fileName)
+
+        // Keep full name, only strip ".pub" for public key
+        if fileURL.path.hasSuffix(".pub") {
+            keyName = fileURL.deletingPathExtension().lastPathComponent
+        } else {
+            keyName = fileURL.lastPathComponent
+        }
+
         path = "\(StaticHelper.sshFolderUrl.path)/\(keyName)"
         guard FileManager.default.fileExists(atPath: path) else { return }
         keyExist = true
-        
+
         publicKeyPath = "\(StaticHelper.sshFolderUrl.path)/\(keyName).pub"
         if FileManager.default.fileExists(atPath: publicKeyPath) {
             do {
@@ -39,14 +47,14 @@ struct KeyObject: Identifiable {
             publicKey = ""
             publicKeyPath = ""
         }
-        
-        if publicKey != "" {
+
+        if !publicKey.isEmpty {
             serverCommand = "echo '\(publicKey)' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
         } else {
             serverCommand = ""
         }
     }
-    
+
     private mutating func extractComment(fromPublicKey content: String) {
         let components = content.split(separator: " ", maxSplits: 2, omittingEmptySubsequences: true)
         if components.count > 2 {
