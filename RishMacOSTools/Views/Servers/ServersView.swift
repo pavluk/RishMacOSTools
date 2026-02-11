@@ -114,7 +114,10 @@ struct ServersView: View {
 
                                     Text(server.keyName)
                                         .fontWeight(.medium)
-                                        .frame(width: 100, alignment: .leading)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.72)
+                                        .allowsTightening(true)
+                                        .frame(width: 210, alignment: .leading)
                                         .contentShape(Rectangle())
                                         .onTapGesture {
                                             StaticHelper.copyToClipboard(
