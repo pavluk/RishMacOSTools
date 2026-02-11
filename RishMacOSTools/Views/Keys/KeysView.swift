@@ -174,7 +174,7 @@ struct KeysView: View {
                                         showDeleteConfirmation = true
                                     } label: {
                                         Image(systemName: "trash")
-                                            .foregroundColor(.red)
+                                            .foregroundColor(Color(red: 0.62, green: 0.24, blue: 0.24))
                                     }
                                     .buttonStyle(.bordered)
                                     .help(String(localized: "button.delete_key"))
