@@ -1837,19 +1837,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iTerm"
+            "value" : "iTerm2"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iTerm"
+            "value" : "iTerm2"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iTerm"
+            "value" : "iTerm2"
           }
         }
       }
