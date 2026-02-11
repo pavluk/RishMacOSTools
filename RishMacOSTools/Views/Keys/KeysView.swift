@@ -24,6 +24,9 @@ struct KeysView: View {
                     Button(String(localized: "button.insert_key")) {
                         isInsertionPresented = true
                     }
+                    Toggle(String(localized: "keys.filter.unused_only"), isOn: $keysViewModel.showUnusedOnly)
+                        .toggleStyle(.switch)
+                        .help(String(localized: "keys.filter.unused_only"))
                     Button {
                         keysViewModel.loadKeys(force: true)
                     } label: {
@@ -46,24 +49,38 @@ struct KeysView: View {
                 
                 List {
                     ForEach(keysViewModel.list) { sshKey in
+                        let isUnused = !keysViewModel.isKeyUsed(sshKey)
+                        let unusedAccent = Color.orange.opacity(0.72)
                         ZStack {
                             HStack {
                                 // Key name
-                                Text(sshKey.keyName)
-                                    .fontWeight(.bold)
-                                    .frame(width: 250, alignment: .leading)
-                                    .contentShape(Rectangle())
-                                    .frame(
-                                        height: StaticHelper.rowHeight
-                                    )
-                                    .onTapGesture {
-                                        keysViewModel.selectedSSHKey = sshKey
-                                        StaticHelper.copyToClipboard(
-                                            text: sshKey.keyName,
-                                            name: String(localized: "label.key_name")
+                                HStack(spacing: 8) {
+                                    Text(sshKey.keyName)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(isUnused ? unusedAccent : .primary)
+                                        .lineLimit(1)
+                                        .truncationMode(.middle)
+                                        .frame(width: 230, alignment: .leading)
+                                        .contentShape(Rectangle())
+                                        .frame(
+                                            height: StaticHelper.rowHeight
                                         )
-                                    }
-                                    .help(String(localized: "label.key_name"))
+                                        .onTapGesture {
+                                            keysViewModel.selectedSSHKey = sshKey
+                                            StaticHelper.copyToClipboard(
+                                                text: sshKey.keyName,
+                                                name: String(localized: "label.key_name")
+                                            )
+                                        }
+                                        .help(String(localized: "label.key_name"))
+
+                                    Text(isUnused ? String(localized: "keys.unused.badge") : "")
+                                        .font(.caption)
+                                        .foregroundColor(unusedAccent)
+                                        .lineLimit(1)
+                                        .frame(width: 120, alignment: .leading)
+                                        .help(isUnused ? String(localized: "keys.unused.badge") : "")
+                                }
                                 
                                 // Public key + copy buttons
                                 HStack(spacing: 8) {
@@ -224,6 +241,9 @@ struct KeysView: View {
                     isPresented.wrappedValue = false
                 }
             }
+        }
+        .onAppear {
+            keysViewModel.refreshUsage(forceServers: true)
         }
     }
 }
