@@ -30,6 +30,12 @@ struct ServerContextMenu: View {
                 Text("button.server_edit")
                 Image(systemName: "pencil")
             }
+            Button(action: {
+                _ = ServersManager.removeKnownHostEntries(for: server)
+            }) {
+                Text("button.delete.from.known_hosts")
+                Image(systemName: "xmark.bin")
+            }
             if server.key.keyExist {
                 Button(action: {
                     StaticHelper.copyToClipboard(text: server.key.publicKey, name: String(localized: "label.key_public"))

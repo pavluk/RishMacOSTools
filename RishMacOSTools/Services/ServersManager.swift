@@ -19,6 +19,14 @@ enum ServersManager {
     static var configBacPath: String {
         return StaticHelper.sshFolderUrl.appendingPathComponent("config.rmtbac").path
     }
+
+    static var knownHostsPath: String {
+        return StaticHelper.sshFolderUrl.appendingPathComponent("known_hosts").path
+    }
+
+    static var knownHostsBacPath: String {
+        return StaticHelper.sshFolderUrl.appendingPathComponent("known_hosts.rmtbac").path
+    }
     
     @discardableResult
     static func ensureSSHScaffold() -> Bool {
@@ -225,7 +233,7 @@ enum ServersManager {
     }
     
     static func removeKnownHosts(message: Bool = true, quiet: Bool = false) -> Bool {
-        let fileName = StaticHelper.sshFolderUrl.appendingPathComponent("known_hosts").path
+        let fileName = knownHostsPath
         guard FileManager.default.fileExists(atPath: fileName) else { return true }
         
         do {
@@ -235,6 +243,134 @@ enum ServersManager {
             }
             return true
         } catch {
+            if !quiet {
+                StaticHelper.showAlert(message: String(localized: "error.delete.known_hosts \(error.localizedDescription)"), error: true)
+            }
+            return false
+        }
+    }
+
+    static func removeKnownHostEntries(for server: ServerObject, message: Bool = true, quiet: Bool = false) -> Bool {
+        let fileManager = FileManager.default
+        let knownHostsURL = URL(fileURLWithPath: knownHostsPath)
+        let backupURL = URL(fileURLWithPath: knownHostsBacPath)
+        let tmpURL = knownHostsURL.deletingLastPathComponent().appendingPathComponent("known_hosts.tmp")
+
+        guard fileManager.fileExists(atPath: knownHostsURL.path) else {
+            if message {
+                StaticHelper.showAlert(message: String(localized: "success.delete.known_hosts"))
+            }
+            return true
+        }
+
+        var targets: Set<String> = []
+        let host = server.host.trimmingCharacters(in: .whitespacesAndNewlines)
+        let hostname = server.hostname.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !host.isEmpty { targets.insert(host.lowercased()) }
+        if !hostname.isEmpty { targets.insert(hostname.lowercased()) }
+
+        let port = server.additions["Port"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if !port.isEmpty {
+            if !host.isEmpty { targets.insert("[\(host.lowercased())]:\(port)") }
+            if !hostname.isEmpty { targets.insert("[\(hostname.lowercased())]:\(port)") }
+        }
+
+        guard !targets.isEmpty else {
+            if !quiet {
+                StaticHelper.showAlert(message: String(localized: "server.not_exist"), error: true)
+            }
+            return false
+        }
+
+        do {
+            let raw = try String(contentsOf: knownHostsURL, encoding: .utf8)
+            let lines = raw.components(separatedBy: .newlines)
+            var removedCount = 0
+            var kept: [String] = []
+
+            for line in lines {
+                let trimmed = line.trimmingCharacters(in: .whitespaces)
+                if trimmed.isEmpty || trimmed.hasPrefix("#") {
+                    kept.append(line)
+                    continue
+                }
+
+                let fields = trimmed.split(maxSplits: 1, omittingEmptySubsequences: true, whereSeparator: { $0 == " " || $0 == "\t" })
+                let firstField = fields.first.map(String.init) ?? ""
+                if firstField.hasPrefix("|") {
+                    kept.append(line)
+                    continue
+                }
+
+                let originalHosts = firstField.split(separator: ",").map(String.init)
+                let lowerHosts = originalHosts.map { $0.lowercased() }
+                let filteredHosts = originalHosts.enumerated().compactMap { index, hostToken -> String? in
+                    targets.contains(lowerHosts[index]) ? nil : hostToken
+                }
+                let removedInLine = originalHosts.count - filteredHosts.count
+
+                if removedInLine == 0 {
+                    kept.append(line)
+                    continue
+                }
+
+                removedCount += removedInLine
+                if !filteredHosts.isEmpty {
+                    let tail = fields.count > 1 ? String(fields[1]) : ""
+                    let rebuilt = tail.isEmpty
+                    ? filteredHosts.joined(separator: ",")
+                    : "\(filteredHosts.joined(separator: ",")) \(tail)"
+                    kept.append(rebuilt)
+                } else {
+                    // Entire line removed when all host tokens matched targets.
+                }
+            }
+
+            if fileManager.fileExists(atPath: backupURL.path) {
+                try? fileManager.removeItem(at: backupURL)
+            }
+            try fileManager.copyItem(at: knownHostsURL, to: backupURL)
+
+            var normalized: [String] = []
+            var previousWasEmpty = false
+            for line in kept {
+                let isEmpty = line.trimmingCharacters(in: .whitespaces).isEmpty
+                if isEmpty {
+                    if previousWasEmpty { continue }
+                    previousWasEmpty = true
+                    normalized.append("")
+                } else {
+                    previousWasEmpty = false
+                    normalized.append(line)
+                }
+            }
+            while normalized.last?.trimmingCharacters(in: .whitespaces).isEmpty == true {
+                normalized.removeLast()
+            }
+
+            var content = normalized.joined(separator: "\n")
+            if !content.isEmpty { content.append("\n") }
+
+            try content.write(to: tmpURL, atomically: true, encoding: .utf8)
+            _ = try fileManager.replaceItemAt(knownHostsURL, withItemAt: tmpURL)
+            try fileManager.setAttributes([.posixPermissions: NSNumber(value: Int16(0o600))], ofItemAtPath: knownHostsURL.path)
+
+            if message {
+                if removedCount > 0 {
+                    StaticHelper.showAlert(message: String(localized: "success.delete.known_hosts.entries"))
+                } else {
+                    StaticHelper.showAlert(message: "No matching entries found in known_hosts")
+                }
+            }
+            return true
+        } catch {
+            if fileManager.fileExists(atPath: backupURL.path) {
+                if fileManager.fileExists(atPath: knownHostsURL.path) {
+                    try? fileManager.removeItem(at: knownHostsURL)
+                }
+                try? fileManager.copyItem(at: backupURL, to: knownHostsURL)
+                try? fileManager.setAttributes([.posixPermissions: NSNumber(value: Int16(0o600))], ofItemAtPath: knownHostsURL.path)
+            }
             if !quiet {
                 StaticHelper.showAlert(message: String(localized: "error.delete.known_hosts \(error.localizedDescription)"), error: true)
             }
